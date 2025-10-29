@@ -7,67 +7,55 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    //переменная для хранения счёта нажатий
-    var count: Int = 0
+final class ViewController: UIViewController {
+    private var count: Int = 0
     
-    //переменная для хранения истории изменений
-    var history: UITextView?
+    private var currentDate: String { Date().formatted() }
     
-    //связь между текстовым полем "История изменений:"
-    @IBOutlet weak var textHistory: UITextView!
+    @IBOutlet private weak var textHistory: UITextView!
     
-    //связь между лейблом "Значение счётчика:"
-    @IBOutlet weak var counterLabel: UILabel!
+    @IBOutlet private weak var labelCounter: UILabel!
     
-    //связь между кнопкой "+"
-    @IBOutlet weak var buttonIncrement: UIButton!
+    @IBOutlet private weak var buttonIncrement: UIButton!
     
-    //связь между кнопкой "-"
-    @IBOutlet weak var buttonDecrement: UIButton!
+    @IBOutlet private weak var buttonDecrement: UIButton!
     
-    //связь между кнопкой "Обнулить"
-    @IBOutlet weak var buttonReset: UIButton!
+    @IBOutlet private weak var buttonReset: UIButton!
     
-    //связь между кнопкой посчитать
-    @IBOutlet weak var changeButton: UIButton!
-    
-    //метод увеличить счёт
-    @IBAction func buttonIncrementTap(_ sender: Any) {
+    @IBAction private func buttonIncrementTap(_ sender: Any) {
         count += 1
-        counterLabel.text = "Значение счётчика: \(count)"
-        history = "значение изменено на +1"
-        textHistory = history
+        labelCounter.text = "Значение счётчика: \(count)"
+        textHistory.text += "\(currentDate.description): значение изменено на +1\n"
     }
     
-    //метод уменьшить счёт
-    @IBAction func buttonDecrementTap(_ sender: Any) {
+    @IBAction private func buttonDecrementTap(_ sender: Any) {
         if !(count == 0) {
             count -= 1
-            counterLabel.text = "Значение счётчика: \(count)"
-        } else { count = 0 }
+            labelCounter.text = "Значение счётчика: \(count)"
+            textHistory.text += "\(currentDate.description): значение изменено на -1\n"
+        } else {
+            textHistory.text += "\(currentDate.description): попытка уменьшить значение счётчика ниже 0\n"
+        }
     }
     
-    //метод обнулить счёт
-    @IBAction func buttonResetTap(_ sender: Any) {
+    @IBAction private func buttonResetTap(_ sender: Any) {
         count = 0
-        counterLabel.text = "Значение счётчика: \(count)"
+        labelCounter.text = "Значение счётчика: \(count)"
+        textHistory.text += "\(currentDate.description): значение сброшено\n"
     }
     
-    //метод нажатие на кнопку
-    @IBAction func buttonDidTap(_ sender: Any) {
+    @IBAction private func buttonCountDidTap(_ sender: Any) {
         count += 1
-        counterLabel.text = "Значение счётчика: \(count)"
+        labelCounter.text = "Значение счётчика: \(count)"
+        textHistory.text += "\(currentDate.description): значение изменено на +1\n"
     }
     
-    //view создано и готово к показу
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        counterLabel.text = "Значение счётчика: \(count)"
+        labelCounter.text = "Значение счётчика: \(count)"
+        textHistory.text = "История изменений:\n"
     }
-
-
+    
+    
 }
 
